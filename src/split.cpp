@@ -1,5 +1,6 @@
 // INPUT ARGS: fpath, odir, splitbylines/splitbyside, linecount or char count
 // given a single input file, split into multiple files
+// returns number of files
 #include <Rcpp.h>
 #include <iostream>
 #include <fstream>
@@ -14,7 +15,7 @@ int rcpp_split(std::string fpath, std::string odir, std::string splitter, int co
   int nlines = 0;
   int nchars = 0; 
   int fileiter = 1;
-  char ofilename[20];
+  char ofilename[256];
 
   std::sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter);  // default 
   std::ofstream ofile (ofilename);
@@ -33,48 +34,65 @@ int rcpp_split(std::string fpath, std::string odir, std::string splitter, int co
       if (splitter == "c")
       {
 	nchars = nchars + line.length(); 
-	if (nchars > count) // assumes one char is one byte
+
+	if (nchars > count * 1000) // assumes one char is one byte and size given in kb
 	{
-	  nchars = line.length();
-	  // close current file
-	  ofile.close();
-	  //   open next file
-	  fileiter++;
-  	  sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
-	  ofile.open(ofilename);
-	  if (!ofile.is_open())
-	    stop("can't open file for output");
+	  if (fileiter == 1)
+	  {
+	    ofile << line << "\n"; 
+	    nchars = line.length();
+	    ofile.close();
+	    fileiter++;
+	    sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
+	    ofile.open(ofilename);
+	    if (!ofile.is_open())
+	      stop("can't open file for output");
+	    continue;
+	  }
+	  else 
+	  {
+	    nchars = line.length();
+	    ofile.close();
+	    fileiter++;
+	    sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
+	    ofile.open(ofilename);
+	    if (!ofile.is_open())
+	      stop("can't open file for output");
+	  }
 	}
-	//write to file
 	ofile << line << "\n"; 
       }
 
       if (splitter == "l")
       {
 	nlines++;
+
 	if (nlines > count)
 	{
 	  nlines = 1;
-	  //close current file
 	  ofile.close();
-	  //  open next file
+	  std::cout << "closed\n";
 	  fileiter++;
-  	  sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
+	  sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
 	  ofile.open(ofilename);
 	  if (!ofile.is_open())
 	    stop("can't open file for output");
 	}
-	//write to file
 	ofile << line << "\n"; 
       }
 
 
     }//while
+    ofile.close();
+
+    //delete the file
+    std::remove(fpath.c_str());
   }//if file read
   else
   {
     stop("file not read");
   }
 
-  return 0;
+  //return fileiter;
+  return fileiter;
 }

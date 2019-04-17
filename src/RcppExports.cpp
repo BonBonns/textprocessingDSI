@@ -5,8 +5,20 @@
 
 using namespace Rcpp;
 
+// rcpp_filter
+std::string rcpp_filter(Rcpp::StringVector words, std::string ifilename);
+RcppExport SEXP _textprocessingDSI_rcpp_filter(SEXP wordsSEXP, SEXP ifilenameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< Rcpp::StringVector >::type words(wordsSEXP);
+    Rcpp::traits::input_parameter< std::string >::type ifilename(ifilenameSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_filter(words, ifilename));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_join
-std::vector <std::string> rcpp_join(std::string idir, std::string ofilename, int newline);
+int rcpp_join(std::string idir, std::string ofilename, int newline);
 RcppExport SEXP _textprocessingDSI_rcpp_join(SEXP idirSEXP, SEXP ofilenameSEXP, SEXP newlineSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -15,16 +27,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< std::string >::type ofilename(ofilenameSEXP);
     Rcpp::traits::input_parameter< int >::type newline(newlineSEXP);
     rcpp_result_gen = Rcpp::wrap(rcpp_join(idir, ofilename, newline));
-    return rcpp_result_gen;
-END_RCPP
-}
-// rcpp_hello_world
-List rcpp_hello_world();
-RcppExport SEXP _textprocessingDSI_rcpp_hello_world() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(rcpp_hello_world());
     return rcpp_result_gen;
 END_RCPP
 }
@@ -56,8 +58,8 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_textprocessingDSI_rcpp_filter", (DL_FUNC) &_textprocessingDSI_rcpp_filter, 2},
     {"_textprocessingDSI_rcpp_join", (DL_FUNC) &_textprocessingDSI_rcpp_join, 3},
-    {"_textprocessingDSI_rcpp_hello_world", (DL_FUNC) &_textprocessingDSI_rcpp_hello_world, 0},
     {"_textprocessingDSI_rcpp_split", (DL_FUNC) &_textprocessingDSI_rcpp_split, 4},
     {"_textprocessingDSI_rcpp_summary", (DL_FUNC) &_textprocessingDSI_rcpp_summary, 2},
     {NULL, NULL, 0}

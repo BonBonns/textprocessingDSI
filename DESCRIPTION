@@ -1,12 +1,14 @@
 Package: textprocessingDSI
 Type: Package
-Title: What the Package Does in One 'Title Case' Line
+Title: Efficiently clean a corpus in parallel
 Version: 1.0
-Date: 2019-04-04
-Author: Your Name
-Maintainer: Your Name <your@email.com>
-Description: One paragraph description of what the package does as one
-        or more full sentences.
+Date: 2019-04-10
+Author: Arthur Koehl
+Maintainer: Arthur Koehl <avkoehl@ucdavis.edu>
+Description: A package to group together many programs in the pipeline to clean a corpus.
 License: GPL (>= 2)
-Imports: Rcpp (>= 1.0.0)
+Imports: Rcpp (>= 1.0.0),
+	 data.table,
+	 parallel,
+	 filesstrings
 LinkingTo: Rcpp

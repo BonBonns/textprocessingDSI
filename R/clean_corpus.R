@@ -1,63 +1,37 @@
-library(parallel)
-# given an input path, output path, number of cores, clean exe path, and commands for that exe path
-# cleans the corpus and puts the cleaned one in output path
-# add permissions warnings at some point
-
-clean_corpus = function (ipath, opath, ncores, interpreter, cleanscript, clean_commands_str)
+clean_corpus = function (ipath, odir, ncores, clean_commands_str)
 {
   # check if ipath exists 
   if (!dir.exists(ipath))
     stop("no input directory")
+
+  if (dir.exists(odir))
+      unlink(odir, recursive=TRUE)
+
+  dir.create(odir)
 
   # check if there are text files in input directory
   filelist = list.files(path = ipath, pattern=".txt", full.names = TRUE)
   if (length(filelist) < 1 )
     stop ("no (.txt) files in directory")
 
-  # check if opath exists
-  if (dir.exists(opath))
-  {
-  # if yes prompt user to delete it
-    value = menu(c("Yes", "No"), title="odir exists. Do you want to overwrite the directory?")
-    if (value == 1)
-    {
-      unlink(opath, force= TRUE, recursive=T)
-    }
-    else
-      stop("output directory already exists, and user chose to not delete it")
-  }
-  # create opath
-  dir.create(opath)
-
   # parlapply (clean_file)
   cluster = makeCluster(ncores)
-  processed = parLapply (cluster, filelist, clean_file, opath, interpreter, cleanscript, clean_commands_str)
+  processed = parLapply (cluster, filelist, clean_file, odir, clean_commands_str)
+  stopCluster(cluster)
 
-  print(processed)
+  return (processed)
 }
+   
 
-clean_file = function (ifile, odir, interpreter, cleanscript, clean_commands_str)
+clean_file = function (ifile, odir, clean_commands_str)
 {
-  # check if file exists
-  if (!file.exists(ifile))
-    stop(paste("couldnt find file", ifile, sep=" "))
+    interpreter = "python3"
+    script = system.file("python", "clean.py", package="textprocessingDSI")
+    base = basename(ifile)
+    ofile = paste(odir, base, sep="/")
+    full_command = paste(script, clean_commands_str, ifile, sep=" ")
 
-  # double check odir exists (in case calling this function directly instead of clean_corpus
-  if (!dir.exists(odir))
-    stop("output directory doesn't exist")
+    system2(interpreter, full_command, stdout=ofile)
 
-  # check if exe exists
-  if (!file.exists(cleanscript))
-    stop("couldn't find cleaning script")
-	 
-  # ofilename
-  ofilename = paste(odir,basename(ifile), sep="/")
-
-  # generate system command
-  command = paste(cleanscript, clean_commands_str, ifile, sep=" ")
-
-  # run exe with commands
-  system2(interpreter, command, stdout = ofilename)
-
-  return (ifile)
+    return (ifile)
 }

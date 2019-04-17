@@ -3,29 +3,25 @@
 \alias{textprocessingDSI}
 \docType{package}
 \title{
-  A short title line describing what the package does
+  Efficiently clean a corpus in parallel
 }
 \description{
-  A more detailed description of what the package does. A length
-  of about one to five lines is recommended.
+  This package was designed for corpuses too large for conventional R cleaning methods.
+  The majority of the functionality of this package is written in cpp and linked with Rcpp.
+  The R code is for the most part a wrapper around the cpp files that perform the operations on the corpus.
+  Given an input list of text files, this package provides the tools to clean, tokenize, and reduce
+  the number of terms of the corpus to prepare it for topic modelling and other nlp tasks.
 }
 \details{
   This section should provide a more detailed overview of how to use the
   package, including the most important functions.
 }
 \author{
-Your Name, email optional.
+Arthur Koehl
 
-Maintainer: Your Name <your@email.com>
-}
-\references{
-  This optional section can contain literature or other references for
-  background information.
+Maintainer: Arthur Koehl <avkoehl@ucdavis.edu>
 }
 \keyword{ package }
-\seealso{
-  Optional links to other man pages
-}
 \examples{
   \dontrun{
      ## Optional simple examples of the most important functions

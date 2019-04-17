@@ -22,6 +22,9 @@ std::vector <std::string> rcpp_summary(std::string ipath, int delim)
     std::vector <std::string> unique;
     std::vector <int> count;
     std::vector <int> doccount;
+    unique.reserve(512); // to avoid massive amounts of resizing at small numbers
+    count.reserve(512);
+    doccount.reserve(512);
     while (getline(infile, line))
     {
       std::vector <int> inds;

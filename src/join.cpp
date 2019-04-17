@@ -1,17 +1,19 @@
 // INPUT ARGS: directory path, output file path, newline delim flag
 // given input directory, concat all the txt files into a single file
+// returns the number of documents
 #include <Rcpp.h>
 #include <fstream>
 #include <dirent.h>
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-std::vector <std::string> rcpp_join (std::string idir, std::string ofilename, int newline)
+std::vector<std::string> rcpp_join (std::string idir, std::string ofilename, int newline)
 {
-  int newline_delim = newline; // if 1 that means docs already delimited by newlines
-  // if 0 that means we need to delimit docs by newlines and convert existing newlines to space
+  int newline_delim = newline; // if 1 that means we need to delimit the docs by newlines
+  // if 0 that means we need to do nothing
   std::vector <std::string> myfiles;
   std::ofstream ofile (ofilename);
+  int ndocs = 0;
 
   // 1. get list of all the myfiles in directory, store in string vector
   DIR *dir;
@@ -40,9 +42,10 @@ std::vector <std::string> rcpp_join (std::string idir, std::string ofilename, in
     {
       while (getline(infile, line))
       {
-	if (newline_delim == 1)
+	if (newline_delim == 0)
 	{
 	  ofile << line << "\n";
+	  ndocs++;
 	} // if already delimited by newlines
 	else
 	{
@@ -51,9 +54,10 @@ std::vector <std::string> rcpp_join (std::string idir, std::string ofilename, in
 
       }//for each line
 
-      if (newline_delim == 0)
+      if (newline_delim == 1)
       {
 	ofile << "\n"; 
+	ndocs++;
       }
 
     }//if open
