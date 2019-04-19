@@ -1,6 +1,3 @@
-// INPUT ARGS: ipath, newline delim
-// OUTPUT: string vector where each elem is term, freq, doccount (1 if no newline delim)
-// given a single input file calculates term frequencies
 #include <Rcpp.h>
 #include <iostream>
 #include <fstream>
