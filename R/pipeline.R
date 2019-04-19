@@ -59,13 +59,15 @@ pipeline = function(ipath, opath, delim, ncores, clean_commands, split="c", size
     if(verbose) { print(paste(nrow(freq), " unique words in corpus")) }
     sparse = get_sparse(freq, length(filenames), sparsity)
     abundant = get_abundant(freq, length(filenames), abundance)
+    if(verbose) { print(paste(length(sparse), " sparse words to be stripped")) }
+    if(verbose) { print(paste(length(abundant), " abundant words to be stripped")) }
     terms = c(sparse,abundant)
     filter_corpus(terms, cpath, ncores)
-     if(verbose) { print(paste(nrow(freq) - terms, " unique words in corpus")) }
+    if(verbose) { print(paste(nrow(freq) - length(terms), " unique words in corpus")) }
     
     # 4. recombine the corpus and overwrite the corpus file
     if(verbose) { print("rejoining corpus") }
-    nsplitfiles = rcpp_join(cpath, jfile)
+    nsplitfiles = rcpp_join(cpath, jfile, 0)
     
     # 5. cleanup directories
     if(verbose) { print("cleaning up temp directories") }
