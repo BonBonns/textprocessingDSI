@@ -29,8 +29,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", split="l", size="2000")
-#' pipeline("/corpus/", "/opath/", 1, 20, "-lnpr --maintain-newlines", split="c", size="200000")
+#' pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", split="l", size=2000)
+#' pipeline("/corpus/", "/opath/", 1, 20, "-lnpr --maintain-newlines", split="c", size=200000)
 #' pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", sparsity=0.04)
 #' }
 pipeline = function(ipath, opath, delim, ncores, clean_commands, split="c", size=50000, sparsity=0.02, abundance=0.98, verbose=FALSE)
@@ -44,36 +44,36 @@ pipeline = function(ipath, opath, delim, ncores, clean_commands, split="c", size
     dir.create(cpath)
     
     # 1. prep (Format the corpus)
-    print("joining files")
+    if(verbose) {   print("joining files") }
     filenames = rcpp_join(ipath, jfile, delim)
-    print("splitting files")
+    if(verbose) { print("splitting files") }
     nsplitfiles = rcpp_split(jfile, spath, split, size)
     
     # 2. clean the corpus
-    print("cleaning the corpus")
+    if(verbose) { print("cleaning the corpus") }
     cleaned = clean_corpus (spath, cpath, ncores, clean_commands)
     
     # 3. filter (summary + filter)
-    print("getting summary of corpus")
+    if(verbose) { print("getting summary of corpus") }
     freq = summary_corpus(cpath, ncores)
-    print(paste(nrow(freq), " unique words in corpus"))
+    if(verbose) { print(paste(nrow(freq), " unique words in corpus")) }
     sparse = get_sparse(freq, length(filenames), sparsity)
     abundant = get_abundant(freq, length(filenames), abundance)
     terms = c(sparse,abundant)
     filter_corpus(terms, cpath, ncores)
-    print(paste(nrow(freq) - terms, " unique words in corpus"))
+     if(verbose) { print(paste(nrow(freq) - terms, " unique words in corpus")) }
     
     # 4. recombine the corpus and overwrite the corpus file
-    print("rejoining corpus")
+    if(verbose) { print("rejoining corpus") }
     nsplitfiles = rcpp_join(cpath, jfile)
     
     # 5. cleanup directories
-    print("cleaning up temp directories")
+    if(verbose) { print("cleaning up temp directories") }
 	unlink(spath, recursive=TRUE)
 	unlink(cpath, recursive=TRUE)
 	
 	# 6. save filenames and parameters used to file
-    print("saving run info")
+    if(verbose) { print("saving run info") }
     infofile = fileConn(paste(opath, "/info.txt"))
     workflowfile = fileConn(paste(opath, "/parameters.txt"))
 	writeLines(filenames, infofile)
