@@ -40,6 +40,7 @@ summary_corpus = function (ipath, ncores, delim)
 
   # collapse df on duplicate rows
   dt = dt[, j=list(sum(freq), sum(doccount)), by=term]
+  colnames(dt) = c("term", "freq", "doccount")
 
   return (dt)
 }
