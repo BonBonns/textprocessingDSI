@@ -5,6 +5,16 @@
 
 using namespace Rcpp;
 
+//' Rcpp Filter
+//'
+//' Given a vector of words and an input file, search through the file
+//' and remove all instances of that word. Overwrites the input file
+//' with the modified content.
+//' @param words A string vector containing the list of words to be removed
+//'		   from the file.
+//' @param ifilename A string containing the path to the inputfile>
+//' Returns the name of the file that was modified.
+//' @export
 // [[Rcpp::export]]
 std::string rcpp_filter(Rcpp::StringVector words, std::string ifilename)
 {

@@ -1,11 +1,21 @@
-// INPUT ARGS: directory path, output file path, newline delim flag
-// given input directory, concat all the txt files into a single file
-// returns the number of documents
 #include <Rcpp.h>
 #include <fstream>
 #include <dirent.h>
 using namespace Rcpp;
 
+//' Rcpp Join
+//'
+//' Given an input directory merge all the files into one large file.
+//' Expects each file to have multiple documents each delimited by newline.
+//' If that is not the case, set the newline argument to 1 to ensure each
+//' document is delimited by newlines.
+//' @param idir A string specifying the path to the input directory.
+//' @param ofilename A string specifying the path to the outputfile.
+//' @param newline An int, if set to 0 files are just concatenated as they are
+//'		   if set to 1 the files have their newlines replaced by spaces and
+//'		   when they are merged together, a newline is added between them. 
+//' Returns number of files that were joined.
+//' @export
 // [[Rcpp::export]]
 std::vector<std::string> rcpp_join (std::string idir, std::string ofilename, int newline)
 {

@@ -18,7 +18,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_join
-int rcpp_join(std::string idir, std::string ofilename, int newline);
+std::vector<std::string> rcpp_join(std::string idir, std::string ofilename, int newline);
 RcppExport SEXP _textprocessingDSI_rcpp_join(SEXP idirSEXP, SEXP ofilenameSEXP, SEXP newlineSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

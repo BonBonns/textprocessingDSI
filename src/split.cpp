@@ -1,12 +1,20 @@
-// INPUT ARGS: fpath, odir, splitbylines/splitbyside, linecount or char count
-// given a single input file, split into multiple files
-// returns number of files
 #include <Rcpp.h>
 #include <iostream>
 #include <fstream>
 
 using namespace Rcpp;
 
+//' Rcpp Split
+//' 
+//' This function reads in a file and splits it into smaller segments
+//' either by byte size or by line count dependent on user input.
+//' When finished, it deletes the original file.
+//' @param fpath A string specifying the path to the input file.
+//' @param odir A string specifying the path to the output.
+//' @param splitter Either l or c, 'l' for lines, 'c' for kilobytes.
+//' @param count Number of lines or kilobytes to split the file on based on splitter.
+//' Returns number of output files.
+//' @export
 // [[Rcpp::export]]
 int rcpp_split(std::string fpath, std::string odir, std::string splitter, int count)
 {
@@ -17,7 +25,7 @@ int rcpp_split(std::string fpath, std::string odir, std::string splitter, int co
   int fileiter = 1;
   char ofilename[256];
 
-  std::sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter);  // default 
+  std::sprintf(ofilename, "%s/%05d.txt", odir.c_str(), fileiter);  // default 
   std::ofstream ofile (ofilename);
   if (!ofile.is_open())
     stop("can't open file for output");
@@ -43,7 +51,7 @@ int rcpp_split(std::string fpath, std::string odir, std::string splitter, int co
 	    nchars = line.length();
 	    ofile.close();
 	    fileiter++;
-	    sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
+	    sprintf(ofilename, "%s/%05d.txt", odir.c_str(), fileiter); 
 	    ofile.open(ofilename);
 	    if (!ofile.is_open())
 	      stop("can't open file for output");
@@ -54,7 +62,7 @@ int rcpp_split(std::string fpath, std::string odir, std::string splitter, int co
 	    nchars = line.length();
 	    ofile.close();
 	    fileiter++;
-	    sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
+	    sprintf(ofilename, "%s/%05d.txt", odir.c_str(), fileiter); 
 	    ofile.open(ofilename);
 	    if (!ofile.is_open())
 	      stop("can't open file for output");
@@ -71,9 +79,8 @@ int rcpp_split(std::string fpath, std::string odir, std::string splitter, int co
 	{
 	  nlines = 1;
 	  ofile.close();
-	  std::cout << "closed\n";
 	  fileiter++;
-	  sprintf(ofilename, "%s/%04d.txt", odir.c_str(), fileiter); 
+	  sprintf(ofilename, "%s/%05d.txt", odir.c_str(), fileiter); 
 	  ofile.open(ofilename);
 	  if (!ofile.is_open())
 	    stop("can't open file for output");

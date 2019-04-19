@@ -6,9 +6,17 @@
 #include <fstream>
 #include <string.h> //strtok
 
-
 using namespace Rcpp;
 
+//' Rcpp Summary
+//'
+//' Given a file returns each unique word, the number of times that word appeared,
+//' and the number of documents that word appeared in. Assumes documents are delimited
+//' by newlines. If the file contains only one document then set delim arg to 1.
+//' @param ipath A string specifying the path to the input file.
+//' @param delim An int, set to 1 if only one document per file, 0 if each document is on a newline.
+//' returns A string vector of the results.
+//' @export
 // [[Rcpp::export]]
 std::vector <std::string> rcpp_summary(std::string ipath, int delim)
 {
