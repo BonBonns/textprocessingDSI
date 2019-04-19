@@ -58,7 +58,7 @@ pipeline = function(ipath, opath, delim, ncores, clean_commands, split="c", size
     freq = summary_corpus(cpath, ncores)
     print(paste(nrow(freq), " unique words in corpus"))
     sparse = get_sparse(freq, length(filenames), sparsity)
-    abundant = get_abundant(freq, length(filenames), abundant)
+    abundant = get_abundant(freq, length(filenames), abundance)
     terms = c(sparse,abundant)
     filter_corpus(terms, cpath, ncores)
     print(paste(nrow(freq) - terms, " unique words in corpus"))
