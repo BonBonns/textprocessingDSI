@@ -36,7 +36,7 @@ script here. \cr
      --additional           : if triggered then adds all stopwords and dictionary files \cr
      --lemma                : if triggered convert common regexes to common form \cr
      --no-usernames         : if usernames (ampersand<name>) should be removed \cr
-     --maintain-newlines    : use space for deilm instead of default(newline) \cr
+     --maintain-newlines    : use space for delim instead of default(newline) \cr
      --min-size [N]         : specify the minimum size for a token (default=2)  \cr
 }
 \examples{

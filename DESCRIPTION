@@ -1,6 +1,6 @@
 Package: textprocessingDSI
 Type: Package
-Title: Clean an arbitrarily large corpus for topic modelling over many cores.
+Title: Clean an arbitrarily large corpus for topic modelling over many cores
 Version: 1.0
 Date: 2019-04-10
 Author: Arthur Koehl

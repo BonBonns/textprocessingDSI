@@ -4,17 +4,15 @@
 \alias{summary_corpus}
 \title{Summary of Corpus}
 \usage{
-summary_corpus(ipath, ncores, delim)
+summary_corpus(ipath, ncores, flag = 0)
 }
 \arguments{
 \item{ipath}{A string specifying the path to the input files.}
 
 \item{ncores}{A number specifying the number of cores to use.}
 
-\item{delim}{A number specifying if documents are delimited by newline
-    or each document is in a different text file. Set to 0 if many
-documents per file delimited by newline. Set to 1 if there is only
-one document per file.}
+\item{flag}{**optional** A number specifying if documents are delimited by newline
+or each document is in a different text file.}
 }
 \value{
 A dataframe object that has merged the dataframes for each file.
@@ -29,6 +27,6 @@ Runs summary_file function on each of the files in the ipath.
 }
 \examples{
 \dontrun{
-summary_corpus("/path/to/corpus/", 10, 0)
+summary_corpus("/path/to/corpus/", 10)
 }
 }

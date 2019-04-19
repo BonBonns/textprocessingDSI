@@ -4,26 +4,26 @@
 \alias{summary_file}
 \title{Summary of File Word Counts}
 \usage{
-summary_file(ipath, delim)
+summary_file(ipath, flag = 0)
 }
 \arguments{
 \item{ipath}{A string specifying the path to the file.}
 
-\item{delim}{A number, set to 1 if only one document per text file.}
+\item{flag}{**optional** A number, set to 1 if only one document per text file.}
 }
 \value{
 A dataframe object with term, freq, doccount fields.
 }
 \description{
 A wrapper around the rcpp_summary function. Given a file, get the unique words,
-their counts, and the number of documents they appeared in. The delim argument
+their counts, and the number of documents they appeared in. The flag argument
 specifies if there are more than one document per text file. Set to 0 if that is the case
 and the documents are delimited by newlines. Set to 1 if there is only one document in
 the file.
 }
 \examples{
 \dontrun{
-summary_file("10documents.txt", 0)
+summary_file("10documents.txt")
 summary_file("onedocument.txt", 1)
 }
 }
