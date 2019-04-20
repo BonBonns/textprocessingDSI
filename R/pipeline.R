@@ -76,8 +76,8 @@ pipeline = function(ipath, opath, delim, ncores, clean_commands, split="c", size
 	
 	# 6. save filenames and parameters used to file
     if(verbose) { print("saving run info") }
-    infofile = fileConn(paste(opath, "/info.txt"))
-    workflowfile = fileConn(paste(opath, "/parameters.txt"))
+    infofile = file(paste(opath, "/info.txt"))
+    workflowfile = file(paste(opath, "/parameters.txt"))
 	writeLines(filenames, infofile)
     writeLines(c(ipath, opath, clean_commands,sparsity,abundance), workflowfile)
 

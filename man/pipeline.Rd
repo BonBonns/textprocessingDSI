@@ -49,8 +49,8 @@ run the various pieces of the pipeline manually. The pipeline is essentially: \c
 }
 \examples{
 \dontrun{
-pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", split="l", size="2000")
-pipeline("/corpus/", "/opath/", 1, 20, "-lnpr --maintain-newlines", split="c", size="200000")
+pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", split="l", size=2000)
+pipeline("/corpus/", "/opath/", 1, 20, "-lnpr --maintain-newlines", split="c", size=200000)
 pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", sparsity=0.04)
 }
 }
