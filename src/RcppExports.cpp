@@ -5,6 +5,17 @@
 
 using namespace Rcpp;
 
+// dos2unix
+void dos2unix(std::string ifilename, std::string ofilename);
+RcppExport SEXP _textprocessingDSI_dos2unix(SEXP ifilenameSEXP, SEXP ofilenameSEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type ifilename(ifilenameSEXP);
+    Rcpp::traits::input_parameter< std::string >::type ofilename(ofilenameSEXP);
+    dos2unix(ifilename, ofilename);
+    return R_NilValue;
+END_RCPP
+}
 // rcpp_filter
 std::string rcpp_filter(Rcpp::StringVector words, std::string ifilename);
 RcppExport SEXP _textprocessingDSI_rcpp_filter(SEXP wordsSEXP, SEXP ifilenameSEXP) {
@@ -58,6 +69,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_textprocessingDSI_dos2unix", (DL_FUNC) &_textprocessingDSI_dos2unix, 2},
     {"_textprocessingDSI_rcpp_filter", (DL_FUNC) &_textprocessingDSI_rcpp_filter, 2},
     {"_textprocessingDSI_rcpp_join", (DL_FUNC) &_textprocessingDSI_rcpp_join, 3},
     {"_textprocessingDSI_rcpp_split", (DL_FUNC) &_textprocessingDSI_rcpp_split, 4},
