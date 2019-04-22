@@ -26,18 +26,20 @@ Also, if you plan on using the lemmatizing functions be sure to add the --lemma 
 here as well, as it prepares the corpus for tree tagger lemmatizing.
 For conveniance I am putting all the possible commands that can be passed to that python
 script here. \cr 
-     -l                     : if words should be lowercased \cr
-     -n                     : if digits should be stripped \cr
-     -p                     : if punctuation should be stripped \cr
-     -r                     : if roman numerals should be stripped \cr
-     -s                     : if stop words should be stripped \cr
-     -d                     : if non dictionary words should be stripped \cr
-     -t                     : if tweet specific cleaning options should be used \cr
-     --additional           : if triggered then adds all stopwords and dictionary files \cr
-     --lemma                : if triggered convert common regexes to common form \cr
-     --no-usernames         : if usernames (ampersand<name>) should be removed \cr
-     --maintain-newlines    : use space for delim instead of default(newline) \cr
-     --min-size [N]         : specify the minimum size for a token (default=2)  \cr
+		 \tabular{rll}{
+        -l                    \tab    :  if words should be lowercased \cr
+        -n                    \tab    :  if digits should be stripped \cr
+        -p                    \tab    :  if punctuation should be stripped \cr
+        -r                    \tab    :  if roman numerals should be stripped \cr
+        -s                    \tab    :  if stop words should be stripped \cr
+        -d                    \tab    :  if non dictionary words should be stripped \cr
+        -t                    \tab    :  if tweet specific cleaning options should be used \cr
+        ----additional        \tab    :  adds all stopwords and dictionary files \cr
+        ----lemma             \tab    :  convert common regexes to common form \cr
+        ----no-usernames      \tab    :  remove twitter usternames ampersand<name> \cr
+        ----maintain-newlines \tab    :  use space for delim instead of default (newline) \cr
+        ----min-size [N]      \tab    :  specify the minimum size for a token (default=2)  \cr
+	}
 }
 \examples{
 \dontrun{
