@@ -29,13 +29,14 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 import os 
 import sys
 from string import digits, punctuation, printable
-import regex as re #for grapheme support
 import argparse
+import codecs
+import regex as re #for grapheme support
 import hunspell #pyhunspell not cyhunspell
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
-    parser.add_argument('infile', nargs='?', type=argparse.FileType('r'), default=sys.stdin)
+    parser.add_argument('infile', type=str)
     parser.add_argument('-l', help="if words should be lowercased", action='store_true')
     parser.add_argument('-n', help="if digits should be striped", action='store_true')
     parser.add_argument('-p', help="if punctuation should be striped", action='store_true')
@@ -54,7 +55,7 @@ def parse_arguments():
 
 URL = r"(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})"
 EMAIL = r"(\b[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b)"
-PHONENUMBER = r"(((\(\d{3}\) ?)|(\d{3}-))?\d{3}-\d{4})"
+PHONENUMBER = r"(([0-9]( |-)?)?(\(?[0-9]{3}\)?|[0-9]{3})( |-)?([0-9]{3}( |-)?[0-9]{4}|[a-zA-Z0-9]{7}))"
 PRICE = r"(\$[0-9]+\.[0-9][0-9])"
 DATE = r"(\b(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d\b)"
 TIME = r"(\b([0-1]?[0-9]|[2][0-3]):([0-5][0-9])(:[0-5][0-9])?\b)"
@@ -187,11 +188,9 @@ def main(args):
     # ==================================================================================================== #
     #                               LOOP THROUGH FILE OR STDIN
     # ==================================================================================================== #
-    for line in args.infile:
+    for line in codecs.open(args.infile, "r", encoding="utf8", errors="ignore"):
         text = line.rstrip()
 
-
-        
         if args.l:
           text = text.lower()
     
