@@ -11,7 +11,7 @@ summary_corpus(ipath, ncores, flag = 0)
 
 \item{ncores}{A number specifying the number of cores to use.}
 
-\item{flag}{**optional** A number specifying if documents are delimited by newline
+\item{flag}{**optional** A number specifying if documents are delimited by newline (set to 0)
 or each document is in a different text file.}
 }
 \value{
@@ -27,6 +27,6 @@ Runs summary_file function on each of the files in the ipath.
 }
 \examples{
 \dontrun{
-summary_corpus("/path/to/corpus/", 10)
+summary_corpus("/path/to/corpus/", 0)
 }
 }
