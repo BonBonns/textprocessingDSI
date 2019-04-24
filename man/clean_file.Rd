@@ -22,8 +22,6 @@ Specify the path to file you want to clean, an output directory and a string
 containing the commands you want to send to the cleaning script.
 Be sure to pass the maintain-newlines parameter if your files are in a format 
 where many documents are in one text file delimited by newlines.
-Also, if you plan on using the lemmatizing functions be sure to add the --lemma flag
-here as well, as it prepares the corpus for tree tagger lemmatizing.
 For conveniance I am putting all the possible commands that can be passed to that python
 script here. \cr 
 		 \tabular{rll}{
@@ -35,7 +33,7 @@ script here. \cr
         -d                    \tab    :  if non dictionary words should be stripped \cr
         -t                    \tab    :  if tweet specific cleaning options should be used \cr
         ----additional        \tab    :  adds all stopwords and dictionary files \cr
-        ----lemma             \tab    :  convert common regexes to common form \cr
+        ----tags              \tab    :  convert common regexes to common form \cr
         ----no-usernames      \tab    :  remove twitter usternames ampersand<name> \cr
         ----maintain-newlines \tab    :  use space for delim instead of default (newline) \cr
         ----min-size [N]      \tab    :  specify the minimum size for a token (default=2)  \cr
@@ -47,6 +45,6 @@ clean_file("myfile.txt", "./cleaned/", "-d")
 clean_file("myfile.txt", "./cleaned/", "-lnp")
 clean_file("myfile.txt", "./cleaned/", "-lnprsdt")
 clean_file("myfile.txt", "./cleaned/", "-lnprsdt --additional")
-clean_file("myfile.txt", "./cleaned/", "-lnprsdt --lemma --maintain-newlines --min-size 3")
+clean_file("myfile.txt", "./cleaned/", "-lnprsdt --tags --maintain-newlines --min-size 3")
 }
 }

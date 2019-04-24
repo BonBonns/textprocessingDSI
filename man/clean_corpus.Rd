@@ -16,7 +16,7 @@ clean_corpus(ipath, odir, ncores, clean_commands_str)
 \item{clean_commands_str}{A string containing the combined commands for the cleaning script.}
 }
 \value{
-A character vector of all the files taht were cleaned.
+A character vector of all the files that were cleaned.
 }
 \description{
 A function that cleans a corpus based on user specification. 
