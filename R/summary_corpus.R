@@ -8,14 +8,14 @@
 #' 
 #' @param ipath A string specifying the path to the input files.
 #' @param ncores A number specifying the number of cores to use.
-#' @param flag **optional** A number specifying if documents are delimited by newline
+#' @param flag **optional** A number specifying if documents are delimited by newline (set to 0)
 #' 		  or each document is in a different text file. 
 #' @return A dataframe object that has merged the dataframes for each file.
 #'		   Has term,freq,doccount for each term.
 #'
 #' @examples
 #' \dontrun{
-#' summary_corpus("/path/to/corpus/", 10)
+#' summary_corpus("/path/to/corpus/", 0)
 #' }
 summary_corpus = function (ipath, ncores, flag=0)
 {
