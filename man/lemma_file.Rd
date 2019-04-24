@@ -4,17 +4,17 @@
 \alias{lemma_file}
 \title{Lemma File}
 \usage{
-lemma_file(ifile, ofile, cmd = "/opt/tree-tagger/bin/tree-tagger",
+lemma_file(ifile, odir, cmd = "/opt/tree-tagger/bin/tree-tagger",
   param = "/opt/tree-tagger/lib/english.par")
 }
 \arguments{
 \item{ifile}{A string containing the path to the input file.}
 
+\item{odir}{A string containign the path to the output file.}
+
 \item{cmd}{**optional** path to the tree taggery binary on your system.}
 
 \item{param}{**optional** path to the param file to use.}
-
-\item{odir}{A string containign the path to the output file.}
 }
 \value{
 A string containing the name of the file that was lemmatized.
