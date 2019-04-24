@@ -1,0 +1,127 @@
+# Quick Start
+
+This page outlines the ways to processes a corpus once you have installed this package and its requirements. Two examples are demonstrated: an interactive method, and the point and click automated method. Both use the same underlying methods from this report, the first one just allows you to make decisions between the different parts of the pipeline as you will see in the example. For the two examples we will use the congressional globe debates corpus.
+
+[TOC]
+
+## Interactive Pipeline
+
+This outlines the sequence of methods to use on a corpus to prepare it for topic modeling. This involves, formating, cleaning, filtering, and lemmatizing. The references for each function can be found on the reference page.
+
+
+
+#### 1. Formating the corpus ####
+
+The underlying assumption is that we can not load the entire corpus from a vector of texts in memory. Instead we will process the files directly. To enable this, a series of functions are provided in this package. In general to simplify distributing the computational aspects,to minimize the overhead of things like loading dictionaries, and to avoid dealing with corpora with unwieldy numbers of files, we want the corpus to be split into equal sized chunks (anywhere between 50 -1000). The easiest way to do this is to delimit the documents by newline and store many documents in each file. The number of documents per file is dependent on the size of each document.
+
+In this example, we take the corpus, which is in a format where each document is in a different text file, and get it into the state described above.
+
+##### a. Join the text files #####
+
+Here we use the **rcpp_join ()** method.
+
+```{r}
+files = rcpp_join("~/data/cd-globe/files/", "~/data/cd-globe/joined.dat", 1)
+```
+
+This will concatenate all the files in the files directory into a single file. Since we passed a '1' as the final argument, the function will automatically replace all newlines within the files with spaces, and when joining files together will separate them with a newline. The return value (stored in files) is a character vector of all the filenames in that original directory. This way we can match documents with their filename down the pipeline.
+
+##### b. split the corpus into equal sized chunks #####
+
+Here we split the large file we created above into several equal sized chunks. We do so with the **rcpp_split()** method.
+
+```{r}
+rcpp_split("~/data/cd-globe/joined.dat", "/data/cd-globe/split/", 'c', 50000)
+```
+
+This will split the "joined.dat" file into files with a size of 50MB (50,000 kilobytes). The files will be named in the format 00001.txt, 00002.txt .... This function preserves newlines and puts only as many lines would fit within each chunk. So you may see some files don't reach exactly 50MB. Each file will maintain the format of one document per line.
+
+
+
+#### 2. Cleaning and Lemmatizing the corpus
+
+Now that the corpus is in a standardized format, we can call our cleaning function to tokenize and clean the corpus according to our specifications. The way that this package cleans a corpus is by cleaning each text file independently line by line. We do so by calling the **clean_file()** method. **clean_file()** is itself a wrapper around a python script that will handle reading the file in and performing the cleaning operations. We pass to that script all the arguments necessary to customize the cleaning according to our task. To see the list of arguments we can pass, look at the **clean_file()** documentation on the reference page. To clean a list of files we can call **clean_corpus()** which simply uses the **parLapply** function from the **parallel** package and the number of cores we want to use.
+
+```{r}
+clean_corpus("/data/cd-globe/split/", "/data/cd-globe/cleaned/", 30, "-lnprsd --maintain-newlines --min-size 2")
+```
+
+We can then pass our cleaned and tokenized corpus through a lemmatizer. This package uses the **tree-tagger** lemmatizer. 
+
+```{r}
+lemma_corpus("/data/cd-globe/cleaned/", "/data/cd-globe/lemmatized/", 30)
+```
+
+
+
+#### 3. Filtering the corpus ####
+
+For topic modeling it is useful to restrict the total number of unique words. This will limit the size of the topic terms matrix, speed up the time it takes to run the model, and reduce the number of meaningless words in our final model. When working with a large corpus, this step is crucial. The functions provided in this package allow the user to remove words based on the number of documents they appear in and the total number of times they appear across the corpus. To do so, we first need to create a data.table of the words, their frequency, and document frequency. We create this data.table using the **summary_corpus()** method.
+
+##### a. getting the word frequencies  #####
+
+```{r}
+word_frequencies.dt = summary_corpus("/data/cd-globe/lemmatized/", 30)
+word_frequencies.dt
+```
+
+```{r}
+## Corpus consisting of 9 documents:
+## 
+##          Text Types Tokens Sentences
+##           BNP  1125   3280        88
+##     Coalition   142    260         4
+##  Conservative   251    499        15
+##        Greens   322    679        21
+##        Labour   298    683        29
+##        LibDem   251    483        14
+##            PC    77    114         5
+##           SNP    88    134         4
+##          UKIP   346    723        27
+## 
+## Source: /Users/smueller/Documents/GitHub/quanteda/vignettes/* on x86_64 by smueller
+## Created: Tue Apr 16 17:14:22 2019
+## Notes:
+```
+
+##### b. getting the list of words we want to remove #####
+
+```{r}
+sparse = get_sparse(word_frequencies.dt, length(files), .01)
+abundant = get_abundant(word_frequenices.dt, length(files), .95)
+terms = c(sparse,abundant)
+```
+
+This will give us a list of the terms that appeared in less than 1% of the documents, and the terms that appeared in 95% or more of the documents.
+
+##### c. filter those words from the corpus #####
+
+Now we want to remove those words from the documents before we run the topic model.
+
+```{r}
+filter_corpus(terms, "/data/cd-globe/lemmatized/", 30)
+```
+
+
+
+#### 4. Preparing the processed corpus for topic modeling ####
+
+The **MALLET** application expects the corpus to be in a form where the source data is a single file with each document instance per line. We can generate this with the **rcpp_join() ** method. 
+
+```{r}
+rcpp_join("/data/cd-globe/lemmatized", "/data/cd-globe/corpus.dat", 0)
+```
+
+Note the final argument of 0, which tells **rcpp_join()** to assume that each file is already delimiting documents by newline and nothing extra needs to be done.
+
+
+
+## Automated Pipeline
+
+This section outlines how to effectively perform the same steps as above on a corpus while avoiding much of the interaction. Note that using the automated method will limit your ability to interface with the pipeline. For example, you will not be able to change the thresholds for sparse and abundant terms based on the results you see. If it really doesn't matter for your purposes, i.e you want to quickly prep a corpus for topic modeling without thinking too much use the method of this section.
+
+```{r}
+pipeline("/data/cd-globe/files/", "/data/cd-globe/output/", 30, "-lnprsd --maintain-newlines --min-size 2")
+```
+
+In the output directory you will find a file containing the fully processed  corpus, a file with all the filenames, and a file with the parameters used in the pipeline.
