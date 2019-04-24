@@ -6,7 +6,7 @@ Date: 2019-04-10
 Author: Arthur Koehl
 Maintainer: Arthur Koehl <avkoehl@ucdavis.edu>
 Description: A package to group together many programs in the pipeline to clean a corpus.
-SystemRequirements: Python3 with hunspell and regex modules installed
+SystemRequirements: Hunspell, libhunspell, TreeTagger. Python3 with hunspell and regex modules installed.
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.0),
 	 data.table,
