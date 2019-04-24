@@ -45,7 +45,7 @@ def parse_arguments():
     parser.add_argument('-d', help="if non dictionary words should be striped", action='store_true')
     parser.add_argument('-t', help="use tweet specific cleaning", action='store_true')
     parser.add_argument('--additional', help="if additional stopwords and dictionaries should be loaded", action='store_true')
-    parser.add_argument('--lemma', help="if words should be lemmatized", action='store_true')
+    parser.add_argument('--tags', help="if common patterns should be tagged", action='store_true')
     parser.add_argument('--no-usernames', help="if usernames should be removed", action='store_true')
     parser.add_argument('--maintain-newlines', help="uses space as delim instead of newlines", action='store_true')
     parser.add_argument('--min-size', help="min token size to keep", type=int, default=2)
@@ -74,9 +74,8 @@ def tokenize(text):
     words = text.split()
     return (words)
 
-def lemma_tokenize(text):
+def tags_tokenize(text):
 
-    # some lemmatization before tree tagger as tree tagger wont work on these
     text = re.sub(URL, "*url", text)
     text = re.sub(EMAIL, "*emailaddress", text)
     text = re.sub(PHONENUMBER, "*phonenumber", text)
@@ -145,20 +144,14 @@ def load_emojis(script_path):
             emojis[elem[0]] = desc
     return emojis
 
-def print_result(tokens, maintain_newlines, lemma):
+def print_result(tokens, maintain_newlines):
 
     if maintain_newlines:
         delim = " "
         if (len(tokens)) < 1:
-            if lemma:
-                print("DOCB")
-            else:
-                print("")
+            print("")
         else:
-            if lemma:
-                print(delim.join(tokens) + " DOCB")
-            else:
-                print(delim.join(tokens))
+            print(delim.join(tokens))
     else:
         for t in tokens:
             print(t)
@@ -203,8 +196,8 @@ def main(args):
         else:
             text = "".join([c for c in text if 0 < ord(c) < 127])
     
-        if args.lemma:
-            words = lemma_tokenize(text)
+        if args.tags:
+            words = tags_tokenize(text)
         else:
             words = tokenize(text)
     
@@ -235,7 +228,7 @@ def main(args):
                 if args.r:
                     w = re.sub(ROMAN, "", w, flags=re.IGNORECASE)
                 else:
-                    if args.lemma:
+                    if args.tags:
                         w = re.sub(ROMAN, "roman-numeral", w, flags=re.IGNORECASE)
 
                 if args.s: w = remove_stopwords(w, stopwords)
@@ -244,7 +237,7 @@ def main(args):
                 if len(w) >= args.min_size:
                     clean_tokens.append(w)
 
-        print_result(clean_tokens, args.maintain_newlines, args.lemma)
+        print_result(clean_tokens, args.maintain_newlines)
     
 if __name__ == "__main__": 
     args = parse_arguments()
