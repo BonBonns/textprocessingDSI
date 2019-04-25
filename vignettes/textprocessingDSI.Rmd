@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 
 # Quick Start
 
-This page outlines the ways to processes a corpus once you have installed this package and its requirements. Two examples are demonstrated: an interactive method, and the point and click automated method. Both use the same underlying methods from this report, the first one just allows you to make decisions between the different parts of the pipeline as you will see in the example. For the two examples we will use the water-management corpus.
+This page outlines the ways to processes a corpus once you have installed this package and its requirements. Two examples are demonstrated: an interactive method, and the point and click automated method. Both use the same underlying methods from this report, the first one just allows you to make decisions between the different parts of the pipeline as you will see in the example. For the two examples we will use the congressional globe debates text corpus.
 
 load package
 ```{r}
