@@ -43,6 +43,9 @@
   </a>
 </li>
 <li>
+  <a href="articles/textprocessingDSI.html">Get started</a>
+</li>
+<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
@@ -57,7 +60,38 @@
       
       </header><div class="row">
   <div class="contents col-md-9">
-A package to group together many programs in the pipeline to clean a corpus.
+<div id="text-processing-dsi" class="section level1">
+<div class="page-header"><h1 class="hasAnchor">
+<a href="#text-processing-dsi" class="anchor"></a>Text Processing DSI</h1></div>
+<p>This package is part of the text report generating pipeline of the DSI. This package in particular is meant to be the starting point, used to perform operations on the raw corpus, such as formatting, cleaning and lemmatizing to make it suitable for the next steps. The next step is generally to run a topic model and the text report.</p>
+<div id="background" class="section level2">
+<h2 class="hasAnchor">
+<a href="#background" class="anchor"></a>Background</h2>
+<p>There are many different ways to process text data. In R, the standard text processing packages such as <strong>tm</strong>, <strong>topicmodeling</strong>, <strong>quanteda</strong>, <strong>koRpus</strong>, <strong>hunspell</strong>, corpora, don’t handle large corpora (&gt;100GB) well. The problem is that these packages rely on loading the files that make up the corpora entirely into memory before performing the operations on those files. We would need a clever programming model to get these to work for our data. Instead of trying to solve this complex problem, this package provides the tools to perform some text processing methods on an arbitrarily large corpus. It does so by streaming the files line by line, using languages other than R for the io and distributing the transformations over many cores.</p>
+</div>
+<div id="system-requirements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#system-requirements" class="anchor"></a>System Requirements</h2>
+<p>Most of the functionality of this package is done in python and Rcpp. In addition, this package provides a wrapper to tree-tagger (for lemmatization). As a result, there are several system requirements beyond having R installed. To use this package, you need <strong>python3</strong>, as well as the python3 modules <strong>hunspell</strong> and <strong>regex</strong> (both can be installed through pip). The python hunspell module requires the <strong>hunspell</strong> application as well as <strong>libhunspell</strong> installed on your system. In addition** you need <strong>tree-tagger</strong> installed on your system. To build the package you need Rcpp that supports the std=c++11 gcc flag.</p>
+<p>The package was designed to be used on a linux server with many cores.</p>
+</div>
+<div id="installation-instructions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#installation-instructions" class="anchor"></a>Installation Instructions</h2>
+<p>Clone the bitbucket repository. Through the command line run R CMD build and R CMD INSTALL. When installed refer to the <strong>quick start</strong> and <strong>reference</strong> pages to see how to use it.</p>
+</div>
+<div id="making-modifications-to-this-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#making-modifications-to-this-package" class="anchor"></a>Making modifications to this package</h2>
+<p>This package uses <strong>Rcpp</strong> for most of its functionality. To make changes to those files, you need to change the code in the /src/ directory, and if you changed how to interface with those functions, you need to make the appropriate changes in the R function that wraps the cpp.</p>
+<p>The building and checking for this package is done using the <strong>devtools</strong> R package. The documentation was provided through <strong>Roxygen2</strong> and this website was created with the <strong>pkgdown</strong> package.</p>
+</div>
+<div id="contact" class="section level2">
+<h2 class="hasAnchor">
+<a href="#contact" class="anchor"></a>Contact</h2>
+<p>To contact the maintainer email Arthur Koehl at avkoehl at ucdavis.edu</p>
+</div>
+</div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

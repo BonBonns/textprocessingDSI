@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Clean Corpus — lemma_corpus • textprocessingDSI</title>
+<title>Articles • textprocessingDSI</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,13 +30,7 @@
 
 
 
-<meta property="og:title" content="Clean Corpus — lemma_corpus" />
-
-<meta property="og:description" content="A function that lemmatizes a corpus using tree-tagger.
-Handles each file in the ipath in parallel and runs lemma_file on each file.
-Outputs to the output directory specified. Make sure the output directory 
-doesn't exist already or has nothing in there." />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="Articles" />
 
 
 
@@ -53,7 +47,7 @@ doesn't exist already or has nothing in there." />
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -100,70 +94,17 @@ doesn't exist already or has nothing in there." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Clean Corpus</h1>
-    
-    <div class="hidden name"><code>lemma_corpus.Rd</code></div>
+      <h1>Articles</h1>
     </div>
 
-    <div class="ref-description">
-    
-    <p>A function that lemmatizes a corpus using tree-tagger.
-Handles each file in the ipath in parallel and runs lemma_file on each file.
-Outputs to the output directory specified. Make sure the output directory 
-doesn't exist already or has nothing in there.</p>
-    
+    <div class="section ">
+      <h3>All vignettes</h3>
+      <p class="section-desc"></p>
+
+      <ul>
+        <li><a href="textprocessingDSI.html">textprocessingDSI</a></li>
+      </ul>
     </div>
-
-    <pre class="usage"><span class='fu'>lemma_corpus</span>(<span class='no'>ipath</span>, <span class='no'>odir</span>, <span class='no'>ncores</span>,
-  <span class='kw'>cmd</span> <span class='kw'>=</span> <span class='st'>"/opt/tree-tagger/bin/tree-tagger"</span>,
-  <span class='kw'>param</span> <span class='kw'>=</span> <span class='st'>"/opt/tree-tagger/lib/english.par"</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>ipath</th>
-      <td><p>A string specifying the path to the input directory with all the text files to lemma.</p></td>
-    </tr>
-    <tr>
-      <th>odir</th>
-      <td><p>A string specifying the output directory path.</p></td>
-    </tr>
-    <tr>
-      <th>ncores</th>
-      <td><p>A number specifying the number of cores ot use.</p></td>
-    </tr>
-    <tr>
-      <th>cmd</th>
-      <td><p>**optional** path to the tree taggery binary on your system.</p></td>
-    </tr>
-    <tr>
-      <th>param</th>
-      <td><p>**optional** path to the param file to use.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A character vector of all the files that were lemmatized.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'>lemma_corpus</span>(<span class='st'>"/path/to/corpus/"</span>, <span class='st'>"./lemmad/"</span>, <span class='fl'>20</span>)
-<span class='fu'>lemma_corpus</span>(<span class='st'>"corpus/"</span>, <span class='st'>"lemmad/"</span>, <span class='fl'>20</span>, <span class='kw'>cmd</span><span class='kw'>=</span><span class='st'>"~/tt/bin/tree-tagger"</span>, <span class='kw'>param</span><span class='kw'>=</span><span class='st'>"~/tt/lib/english.par"</span>)
-<span class='co'># }</span></pre>
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
   </div>
 </div>
 

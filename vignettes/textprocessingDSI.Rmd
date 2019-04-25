@@ -1,8 +1,30 @@
+---
+title: "textprocessingDSI"
+author: "Arthur Koehl"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  eval = FALSE,
+  comment = "#>"
+)
+```
+
 # Quick Start
 
-This page outlines the ways to processes a corpus once you have installed this package and its requirements. Two examples are demonstrated: an interactive method, and the point and click automated method. Both use the same underlying methods from this report, the first one just allows you to make decisions between the different parts of the pipeline as you will see in the example. For the two examples we will use the congressional globe debates corpus.
+This page outlines the ways to processes a corpus once you have installed this package and its requirements. Two examples are demonstrated: an interactive method, and the point and click automated method. Both use the same underlying methods from this report, the first one just allows you to make decisions between the different parts of the pipeline as you will see in the example. For the two examples we will use the water-management corpus.
 
-[TOC]
+load package
+```{r}
+library("textprocessingDSI")
+```
 
 ## Interactive Pipeline
 
@@ -18,10 +40,10 @@ In this example, we take the corpus, which is in a format where each document is
 
 ##### a. Join the text files #####
 
-Here we use the **rcpp_join ()** method.
+Here we use the **rcpp_join()** method.
 
 ```{r}
-files = rcpp_join("~/data/cd-globe/files/", "~/data/cd-globe/joined.dat", 1)
+files = rcpp_join("/data/cd-glove/files/", "/data/cd-globe/joined.dat", 1)
 ```
 
 This will concatenate all the files in the files directory into a single file. Since we passed a '1' as the final argument, the function will automatically replace all newlines within the files with spaces, and when joining files together will separate them with a newline. The return value (stored in files) is a character vector of all the filenames in that original directory. This way we can match documents with their filename down the pipeline.
@@ -31,7 +53,7 @@ This will concatenate all the files in the files directory into a single file. S
 Here we split the large file we created above into several equal sized chunks. We do so with the **rcpp_split()** method.
 
 ```{r}
-rcpp_split("~/data/cd-globe/joined.dat", "/data/cd-globe/split/", 'c', 50000)
+rcpp_split("/data/cd-globe/joined.dat", "/data/cd-globe/split/", 'c', 50000)
 ```
 
 This will split the "joined.dat" file into files with a size of 50MB (50,000 kilobytes). The files will be named in the format 00001.txt, 00002.txt .... This function preserves newlines and puts only as many lines would fit within each chunk. So you may see some files don't reach exactly 50MB. Each file will maintain the format of one document per line.
@@ -65,24 +87,6 @@ word_frequencies.dt = summary_corpus("/data/cd-globe/lemmatized/", 30)
 word_frequencies.dt
 ```
 
-```{r}
-## Corpus consisting of 9 documents:
-## 
-##          Text Types Tokens Sentences
-##           BNP  1125   3280        88
-##     Coalition   142    260         4
-##  Conservative   251    499        15
-##        Greens   322    679        21
-##        Labour   298    683        29
-##        LibDem   251    483        14
-##            PC    77    114         5
-##           SNP    88    134         4
-##          UKIP   346    723        27
-## 
-## Source: /Users/smueller/Documents/GitHub/quanteda/vignettes/* on x86_64 by smueller
-## Created: Tue Apr 16 17:14:22 2019
-## Notes:
-```
 
 ##### b. getting the list of words we want to remove #####
 
