@@ -46,6 +46,7 @@ def parse_arguments():
     parser.add_argument('-t', help="use tweet specific cleaning", action='store_true')
     parser.add_argument('--additional', help="if additional stopwords and dictionaries should be loaded", action='store_true')
     parser.add_argument('--tags', help="if common patterns should be tagged", action='store_true')
+    parser.add_argument('--no-tags', help="if common patterns should be removed", action='store_true')
     parser.add_argument('--no-usernames', help="if usernames should be removed", action='store_true')
     parser.add_argument('--maintain-newlines', help="uses space as delim instead of newlines", action='store_true')
     parser.add_argument('--min-size', help="min token size to keep", type=int, default=2)
@@ -74,8 +75,19 @@ def tokenize(text):
     words = text.split()
     return (words)
 
-def tags_tokenize(text):
+def no_tags_tokenize(text):
+    # tags to be removed
+    regexes = [URL, EMAIL, PHONENUMBER, PRICE, DATE, TIME]
+    text = re.sub("|".join(regexes), r"", text)
 
+    #missing hashtag, user, apostrophe, hypthen and punct
+    regexes = [HASHTAG, USER, APOSTROPHE, HYPHEN, PUNCT]
+    text = re.sub("|".join(regexes), r" *\g<0> ", text)
+    text = re.sub(r'\s+', ' ', text)
+    words = text.split()
+    return words
+
+def tags_tokenize(text):
     text = re.sub(URL, "*url", text)
     text = re.sub(EMAIL, "*emailaddress", text)
     text = re.sub(PHONENUMBER, "*phonenumber", text)
@@ -198,6 +210,8 @@ def main(args):
     
         if args.tags:
             words = tags_tokenize(text)
+        elif args.no_tags:
+            words = no_tags_tokenize(text)
         else:
             words = tokenize(text)
     
