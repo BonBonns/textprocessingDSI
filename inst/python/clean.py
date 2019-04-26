@@ -222,6 +222,8 @@ def main(args):
                    continue
 
                 if re.search("|".join([APOSTROPHE,HYPHEN]), w) and not re.search("|".join([URL,USER,EMAIL]), w):
+                    if args.p: w = w.tranlsate(str.maketrans('','',".?!#[]()$%&@:;,"))
+                    if args.n: w = w.translate(str.maketrans('','',digits)) 
                     if args.s: w = remove_stopwords(w, stopwords)
                     if args.d: w = remove_non_dictionary(w, hspell)
 
