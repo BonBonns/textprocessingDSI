@@ -16,6 +16,12 @@ The package was designed to be used on a linux server with many cores.
 
 Clone the bitbucket repository. Through the command line run R CMD build and R CMD INSTALL. When installed refer to the **quick start** and **reference** pages to see how to use it.
 
+Alternatively install through bitbucket or github with devtools.
+```{r}
+devtools::install_github("avkoehl/textprocessingDSI")
+devtools::install_bitbucket("digitalscholarship/textprocessingDSI")
+```
+
 ## Making modifications to this package
 
 This package uses **Rcpp** for most of its functionality. To make changes to those files, you need to change the code in the /src/ directory, and if you changed how to interface with those functions, you need to make the appropriate changes in the R function that wraps the cpp. 
