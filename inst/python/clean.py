@@ -49,7 +49,7 @@ def parse_arguments():
     parser.add_argument('--no-tags', help="if common patterns should be removed", action='store_true')
     parser.add_argument('--no-usernames', help="if usernames should be removed", action='store_true')
     parser.add_argument('--maintain-newlines', help="uses space as delim instead of newlines", action='store_true')
-    parser.add_argument('--min-size', help="min token size to keep", type=int, default=2)
+    parser.add_argument('--min-size', help="min token size to keep", type=int, default=0)
     args = parser.parse_args()
     return args
 
@@ -166,7 +166,10 @@ def print_result(tokens, maintain_newlines):
             print(delim.join(tokens))
     else:
         for t in tokens:
-            print(t)
+            if len(t) < 1:
+                continue
+            else:
+                print(t)
 
 def get_script_path():
     return os.path.dirname(os.path.realpath(sys.argv[0]))
