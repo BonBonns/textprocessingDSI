@@ -59,12 +59,12 @@ clean_corpus = function (ipath, odir, ncores, clean_commands_str)
 #'         -s                    \tab    :  if stop words should be stripped \cr
 #'         -d                    \tab    :  if non dictionary words should be stripped \cr
 #'         -t                    \tab    :  if tweet specific cleaning options should be used \cr
-#'         ----additional        \tab    :  adds all stopwords and dictionary files \cr
-#'         ----tags              \tab    :  convert common regexes to common form \cr
-#'         ----no-tags           \tab    :  remove common regexes\cr
-#'         ----no-usernames      \tab    :  remove twitter usternames ampersand<name> \cr
-#'         ----maintain-newlines \tab    :  use space for delim instead of default (newline) \cr
-#'         ----min-size [N]      \tab    :  specify the minimum size for a token (default=2)  \cr
+#'         \--additional         \tab    :  if you want to add all stopwords and dictionary files \cr
+#          \--tags               \tab    :  if common patterns should be tagged
+#          \--no-tags            \tab    :  if common patterns should be removed
+#'         \--no-usernames       \tab    :  remove twitter usternames ampersand<name> \cr
+#'         \--maintain-newlines  \tab    :  use space for delim instead of default (newline) \cr
+#'         \--min-size [N]       \tab    :  specify the minimum size for a token (default=2)  \cr
 #'		}
 #'
 #' @param ifile A string containing the path to the input file.

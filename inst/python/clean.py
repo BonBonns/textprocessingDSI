@@ -2,26 +2,22 @@
 
 # ==========================================================================================
 #                          clean.py      
-#     Arthur Koehl                         Version 3.0
-#
-#     Python 3 for unicode strings.
-#     will read either from file specified on command line or stdin
-#     tokenize and clean the file. Return each token on newline.
-#     Prints to stdout
+#     Arthur Koehl                         Version 3.1
 #
 #     Flags 
-#      -l                     : if words should be lowercased
-#      -n                     : if digits should be stripped 
-#      -p                     : if punctuation should be stripped
-#      -r                     : if roman numerals should be stripped
-#      -s                     : if stop words should be stripped
-#      -d                     : if non dictionary words should be stripped
-#      -t                     : if tweet specific cleaning options should be used
-#      --additional           : if triggered then adds all stopwords and dictionary files
-#      --lemma                : if triggered convert common regexes to common form
-#      --no-usernames         : if usernames (@name) should be removed
-#      --maintain-newlines    : use space for deilm instead of default(newline) 
-#      --min-size             : specify the minimum size for a token (default=2)
+#      -l                      if words should be lowercased
+#      -n                      if digits should be stripped 
+#      -p                      if punctuation should be stripped
+#      -r                      if roman numerals should be stripped
+#      -s                      if stop words should be stripped
+#      -d                      if non dictionary words should be stripped
+#      -t                      if tweet specific cleaning options should be used
+#      --additional            if triggered then adds all stopwords and dictionary files
+#      --tags                  if common patterns should be tagged
+#      --no-tags               if common patterns should be removed
+#      --no-usernames          if usernames (@name) should be removed
+#      --maintain-newlines     if set, will use space for delim instead of default(newline) 
+#      --min-size              specify the minimum size for a token (default=2)
 # =========================================================================================
 
 import warnings
@@ -198,6 +194,7 @@ def main(args):
     # ==================================================================================================== #
     for line in codecs.open(args.infile, "r", encoding="utf8", errors="ignore"):
         text = line.rstrip()
+        text = re.sub(r'*', '', text)
 
         if args.l:
           text = text.lower()
