@@ -12,7 +12,6 @@
 #' @param odir A string specifying the path to an output directory.
 #' @param ncores A number specifying the number of cores to use.
 #' @param clean_commands_str A string containing the combined commands for the cleaning script.
-#' @return A character vector of all the files that were cleaned.
 #'
 #' @examples
 #' \dontrun{
@@ -38,8 +37,6 @@ clean_corpus = function (ipath, odir, ncores, clean_commands_str)
   cluster = makeCluster(ncores)
   processed = parLapply (cluster, filelist, clean_file, odir, clean_commands_str)
   stopCluster(cluster)
-
-  return (processed)
 }
 
 #' Clean File

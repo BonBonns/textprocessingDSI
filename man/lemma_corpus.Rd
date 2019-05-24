@@ -19,9 +19,6 @@ lemma_corpus(ipath, odir, ncores,
 
 \item{param}{**optional** path to the param file to use.}
 }
-\value{
-A character vector of all the files that were lemmatized.
-}
 \description{
 A function that lemmatizes a corpus using tree-tagger.
 Handles each file in the ipath in parallel and runs lemma_file on each file.

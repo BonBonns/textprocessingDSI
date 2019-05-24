@@ -10,7 +10,6 @@
 #' @param ncores A number specifying the number of cores ot use.
 #' @param cmd **optional** path to the tree taggery binary on your system.
 #' @param param **optional** path to the param file to use.
-#' @return A character vector of all the files that were lemmatized.
 #'
 #' @examples
 #' \dontrun{
@@ -37,8 +36,6 @@ lemma_corpus = function (ipath, odir, ncores, cmd="/opt/tree-tagger/bin/tree-tag
   cluster = makeCluster(ncores)
   processed = parLapply(cluster, filelist, lemma_file, odir, cmd, param)
   stopCluster(cluster)
-  
-  return (processed)
 }
   
 #' Lemma File

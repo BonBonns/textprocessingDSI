@@ -13,9 +13,6 @@ filter_corpus(words, ipath, ncores)
 
 \item{ncores}{A number specifying the number of cores to use.}
 }
-\value{
-A character vector of all the files that were filtered.
-}
 \description{
 A function that removes all occurances from a given list of words from each (.txt) file in ipath.
 Generally used after some analysis of the summary_corpus results. To remove the most and least frequent

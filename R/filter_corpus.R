@@ -8,7 +8,6 @@
 #' @param words A character vector of all the words to remove.
 #' @param ipath A string specifying the path to all the text files to handle.
 #' @param ncores A number specifying the number of cores to use.
-#' @return A character vector of all the files that were filtered.
 #'
 #' @examples
 #' \dontrun{
@@ -32,8 +31,6 @@ filter_corpus = function (words, ipath, ncores)
   # list of results df
   processed = parLapply (cluster, filelist, filter_file, words)
   stopCluster(cluster)
-
-  return (processed)
 }
 
 #' Filter File
