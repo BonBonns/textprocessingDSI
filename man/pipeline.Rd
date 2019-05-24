@@ -4,8 +4,9 @@
 \alias{pipeline}
 \title{Text Processing Pipeline}
 \usage{
-pipeline(ipath, opath, delim, ncores, clean_commands, split = "c",
-  size = 50000, sparsity = 0.02, abundance = 0.98, verbose = FALSE)
+pipeline(ipath, opath, delim, ncores, clean_commands, lemma = TRUE,
+  split = "c", size = 50000, sparsity = 0.02, abundance = 0.98,
+  verbose = FALSE)
 }
 \arguments{
 \item{ipath}{A string specifying path to the raw text files containing the corpus.}
@@ -19,6 +20,8 @@ and delimit each document with a newline.}
 
 \item{clean_commands}{A string containing the combined parameters for running the cleaning script, 
 refer to clean_corpus and clean_file documentation.}
+
+\item{lemma}{**optional** A boolean if true the corpus will be lemmatized.}
 
 \item{split}{**optional** A character('c' or 'l', default='c') specifying if the corpus should be split by memory size or by line count.}
 
@@ -42,15 +45,16 @@ Designed to be the simplest way to process a corpus. If you want more control,
 run the various pieces of the pipeline manually. The pipeline is essentially: \cr
 1) combine the corpus into a single file (one document per line) and split the corpus into equal sized chunks \cr
 2) clean those chunks in parallel \cr
-3) find and remove the 'sparse' and 'abundant' terms \cr
-4) recombine the now cleaned corpus into a single file (one document per line) \cr
-5) delete the intermediary directories that were created \cr
-6) save the parameters used to clean in an info file in the opath \cr
+3) lemma those chunks in parallel \cr
+4) find and remove the 'sparse' and 'abundant' terms \cr
+5) recombine the now cleaned corpus into a single file (one document per line) \cr
+6) delete the intermediary directories that were created \cr
+7) save the parameters used to clean in an info file in the opath \cr
 }
 \examples{
 \dontrun{
 pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", split="l", size=2000)
-pipeline("/corpus/", "/opath/", 1, 20, "-lnpr --maintain-newlines", split="c", size=200000)
-pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", sparsity=0.04)
+pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines", split="c", size=200000)
+pipeline("/corpus/", "/opath/", 1, 20, "-lnprsd --maintain-newlines",lemma=FALSE,sparsity=0.04)
 }
 }
