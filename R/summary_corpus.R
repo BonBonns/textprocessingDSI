@@ -70,6 +70,11 @@ summary_file = function (ipath, flag=0)
   }
   res = rcpp_summary(ipath, flag)
 
+  if (length(res) == 0) {
+      df = data.frame(term=character(), freq=integer(), doccount=integer())
+      return(df)
+  }
+
   # parse res (a list of strings where each string should be split on whitespace) into list of lists into df
   reslistoflists = lapply(res, mysplit)
   df = data.frame(do.call(rbind, reslistoflists))
