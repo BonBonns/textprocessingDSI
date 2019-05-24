@@ -64,7 +64,7 @@
       <h1>textprocessingDSI</h1>
                         <h4 class="author">Arthur Koehl</h4>
             
-            <h4 class="date">2019-05-02</h4>
+            <h4 class="date">2019-05-24</h4>
       
       
       <div class="hidden name"><code>textprocessingDSI.Rmd</code></div>
@@ -100,7 +100,7 @@
 <a href="#b--split-the-corpus-into-equal-sized-chunks" class="anchor"></a>b. split the corpus into equal sized chunks</h5>
 <p>Here we split the large file we created above into several equal sized chunks. We do so with the <strong>rcpp_split()</strong> method.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw"><a href="../reference/rcpp_split.html">rcpp_split</a></span>(<span class="st">"/data/cd-globe/joined.dat"</span>, <span class="st">"/data/cd-globe/split/"</span>, <span class="st">'c'</span>, <span class="dv">50000</span>)</a></code></pre></div>
-<p>This will split the “joined.dat” file into files with a size of 50MB (50,000 kilobytes). The files will be named in the format 00001.txt, 00002.txt …. This function preserves newlines and puts only as many lines would fit within each chunk. So you may see some files don’t reach exactly 50MB. Each file will maintain the format of one document per line.</p>
+<p>This will split the “joined.dat” file into files with a size of 50MB (50,000 kilobytes). The files will be named in the format 00001.txt, 00002.txt …. This function preserves newlines and puts only as many lines would fit within each chunk. So you may see some files don’t reach exactly 50MB. Each file will maintain the format of one document per line. Returns the number of files after the split.</p>
 </div>
 </div>
 <div id="cleaning-and-lemmatizing-the-corpus" class="section level4">
@@ -119,7 +119,7 @@
 <h5 class="hasAnchor">
 <a href="#a--getting-the-word-frequencies" class="anchor"></a>a. getting the word frequencies</h5>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">word_frequencies.dt =<span class="st"> </span><span class="kw"><a href="../reference/summary_corpus.html">summary_corpus</a></span>(<span class="st">"/data/cd-globe/lemmatized/"</span>, <span class="dv">30</span>)</a>
-<a class="sourceLine" id="cb6-2" data-line-number="2">word_frequencies.dt</a></code></pre></div>
+<a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/head">head</a></span>(word_frequencies.dt)</a></code></pre></div>
 </div>
 <div id="b--getting-the-list-of-words-we-want-to-remove" class="section level5">
 <h5 class="hasAnchor">
@@ -148,7 +148,7 @@
 <h2 class="hasAnchor">
 <a href="#automated-pipeline" class="anchor"></a>Automated Pipeline</h2>
 <p>This section outlines how to effectively perform the same steps as above on a corpus while avoiding much of the interaction. Note that using the automated method will limit your ability to interface with the pipeline. For example, you will not be able to change the thresholds for sparse and abundant terms based on the results you see. If it really doesn’t matter for your purposes, i.e you want to quickly prep a corpus for topic modeling without thinking too much use the method of this section.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/pipeline.html">pipeline</a></span>(<span class="st">"/data/cd-globe/files/"</span>, <span class="st">"/data/cd-globe/output/"</span>, <span class="dv">30</span>, <span class="st">"-lnprsd --maintain-newlines --min-size 2"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/pipeline.html">pipeline</a></span>(<span class="st">"/data/cd-globe/files/"</span>, <span class="st">"/data/cd-globe/output/"</span>, <span class="dv">30</span>, <span class="st">"-lnprsd --maintain-newlines --min-size 2"</span>, <span class="dt">lemma=</span><span class="ot">FALSE</span>)</a></code></pre></div>
 <p>In the output directory you will find a file containing the fully processed corpus, a file with all the filenames, and a file with the parameters used in the pipeline.</p>
 </div>
 </div>

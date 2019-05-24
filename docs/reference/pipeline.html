@@ -38,10 +38,11 @@ Designed to be the simplest way to process a corpus. If you want more control,
 run the various pieces of the pipeline manually. The pipeline is essentially: 
 1) combine the corpus into a single file (one document per line) and split the corpus into equal sized chunks 
 2) clean those chunks in parallel 
-3) find and remove the 'sparse' and 'abundant' terms 
-4) recombine the now cleaned corpus into a single file (one document per line) 
-5) delete the intermediary directories that were created 
-6) save the parameters used to clean in an info file in the opath " />
+3) lemma those chunks in parallel 
+4) find and remove the 'sparse' and 'abundant' terms 
+5) recombine the now cleaned corpus into a single file (one document per line) 
+6) delete the intermediary directories that were created 
+7) save the parameters used to clean in an info file in the opath " />
 <meta name="twitter:card" content="summary" />
 
 
@@ -119,15 +120,17 @@ Designed to be the simplest way to process a corpus. If you want more control,
 run the various pieces of the pipeline manually. The pipeline is essentially: <br />
 1) combine the corpus into a single file (one document per line) and split the corpus into equal sized chunks <br />
 2) clean those chunks in parallel <br />
-3) find and remove the 'sparse' and 'abundant' terms <br />
-4) recombine the now cleaned corpus into a single file (one document per line) <br />
-5) delete the intermediary directories that were created <br />
-6) save the parameters used to clean in an info file in the opath <br /></p>
+3) lemma those chunks in parallel <br />
+4) find and remove the 'sparse' and 'abundant' terms <br />
+5) recombine the now cleaned corpus into a single file (one document per line) <br />
+6) delete the intermediary directories that were created <br />
+7) save the parameters used to clean in an info file in the opath <br /></p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>pipeline</span>(<span class='no'>ipath</span>, <span class='no'>opath</span>, <span class='no'>delim</span>, <span class='no'>ncores</span>, <span class='no'>clean_commands</span>, <span class='kw'>split</span> <span class='kw'>=</span> <span class='st'>"c"</span>,
-  <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>sparsity</span> <span class='kw'>=</span> <span class='fl'>0.02</span>, <span class='kw'>abundance</span> <span class='kw'>=</span> <span class='fl'>0.98</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>pipeline</span>(<span class='no'>ipath</span>, <span class='no'>opath</span>, <span class='no'>delim</span>, <span class='no'>ncores</span>, <span class='no'>clean_commands</span>, <span class='kw'>lemma</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>split</span> <span class='kw'>=</span> <span class='st'>"c"</span>, <span class='kw'>size</span> <span class='kw'>=</span> <span class='fl'>50000</span>, <span class='kw'>sparsity</span> <span class='kw'>=</span> <span class='fl'>0.02</span>, <span class='kw'>abundance</span> <span class='kw'>=</span> <span class='fl'>0.98</span>,
+  <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,6 +156,10 @@ and delimit each document with a newline.</p></td>
       <th>clean_commands</th>
       <td><p>A string containing the combined parameters for running the cleaning script, 
 refer to clean_corpus and clean_file documentation.</p></td>
+    </tr>
+    <tr>
+      <th>lemma</th>
+      <td><p>**optional** A boolean if true the corpus will be lemmatized.</p></td>
     </tr>
     <tr>
       <th>split</th>
@@ -186,8 +193,8 @@ refer to get_abundant documentation.</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
 <span class='fu'>pipeline</span>(<span class='st'>"/corpus/"</span>, <span class='st'>"/opath/"</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='st'>"-lnprsd --maintain-newlines"</span>, <span class='kw'>split</span><span class='kw'>=</span><span class='st'>"l"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='fl'>2000</span>)
-<span class='fu'>pipeline</span>(<span class='st'>"/corpus/"</span>, <span class='st'>"/opath/"</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='st'>"-lnpr --maintain-newlines"</span>, <span class='kw'>split</span><span class='kw'>=</span><span class='st'>"c"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='fl'>200000</span>)
-<span class='fu'>pipeline</span>(<span class='st'>"/corpus/"</span>, <span class='st'>"/opath/"</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='st'>"-lnprsd --maintain-newlines"</span>, <span class='kw'>sparsity</span><span class='kw'>=</span><span class='fl'>0.04</span>)
+<span class='fu'>pipeline</span>(<span class='st'>"/corpus/"</span>, <span class='st'>"/opath/"</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='st'>"-lnprsd --maintain-newlines"</span>, <span class='kw'>split</span><span class='kw'>=</span><span class='st'>"c"</span>, <span class='kw'>size</span><span class='kw'>=</span><span class='fl'>200000</span>)
+<span class='fu'>pipeline</span>(<span class='st'>"/corpus/"</span>, <span class='st'>"/opath/"</span>, <span class='fl'>1</span>, <span class='fl'>20</span>, <span class='st'>"-lnprsd --maintain-newlines"</span>,<span class='kw'>lemma</span><span class='kw'>=</span><span class='fl'>FALSE</span>,<span class='kw'>sparsity</span><span class='kw'>=</span><span class='fl'>0.04</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
