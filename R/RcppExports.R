@@ -63,10 +63,10 @@ rcpp_split <- function(fpath, odir, splitter, count) {
 #' and the number of documents that word appeared in. Assumes documents are delimited
 #' by newlines. If the file contains only one document then set delim arg to 1.
 #' @param ipath A string specifying the path to the input file.
-#' @param delim An int, set to 1 if only one document per file, 0 if each document is on a newline.
+#' @param fileflag An int, set to 1 if only one document per file, 0 if each document is on a newline.
 #' returns A string vector of the results.
 #' @export
-rcpp_summary <- function(ipath, delim) {
-    .Call(`_textprocessingDSI_rcpp_summary`, ipath, delim)
+rcpp_summary <- function(ipath, fileflag) {
+    .Call(`_textprocessingDSI_rcpp_summary`, ipath, fileflag)
 }
 

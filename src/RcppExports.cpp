@@ -56,14 +56,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // rcpp_summary
-std::vector <std::string> rcpp_summary(std::string ipath, int delim);
-RcppExport SEXP _textprocessingDSI_rcpp_summary(SEXP ipathSEXP, SEXP delimSEXP) {
+std::vector <std::string> rcpp_summary(std::string ipath, int fileflag);
+RcppExport SEXP _textprocessingDSI_rcpp_summary(SEXP ipathSEXP, SEXP fileflagSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< std::string >::type ipath(ipathSEXP);
-    Rcpp::traits::input_parameter< int >::type delim(delimSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_summary(ipath, delim));
+    Rcpp::traits::input_parameter< int >::type fileflag(fileflagSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_summary(ipath, fileflag));
     return rcpp_result_gen;
 END_RCPP
 }
