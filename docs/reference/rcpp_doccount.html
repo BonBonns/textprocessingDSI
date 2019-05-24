@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Rcpp Summary — rcpp_summary • textprocessingDSI</title>
+<title>Rcpp Doccount — rcpp_doccount • textprocessingDSI</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,11 @@
 
 
 
-<meta property="og:title" content="Rcpp Summary — rcpp_summary" />
+<meta property="og:title" content="Rcpp Doccount — rcpp_doccount" />
 
-<meta property="og:description" content="Given a file returns each unique word, the number of times that word appeared,
-and the number of documents that word appeared in. Assumes documents are delimited
-by newlines. If the file contains only one document then set delim arg to 1." />
+<meta property="og:description" content="Given a file returns the number of words for each document in the file.
+Assumes documents are delimited
+by newlines. If the file contains only one document then set fileflag arg to 1." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -99,20 +99,20 @@ by newlines. If the file contains only one document then set delim arg to 1." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Rcpp Summary</h1>
+    <h1>Rcpp Doccount</h1>
     
-    <div class="hidden name"><code>rcpp_summary.Rd</code></div>
+    <div class="hidden name"><code>rcpp_doccount.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Given a file returns each unique word, the number of times that word appeared,
-and the number of documents that word appeared in. Assumes documents are delimited
-by newlines. If the file contains only one document then set delim arg to 1.</p>
+    <p>Given a file returns the number of words for each document in the file.
+Assumes documents are delimited
+by newlines. If the file contains only one document then set fileflag arg to 1.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>rcpp_summary</span>(<span class='no'>ipath</span>, <span class='no'>fileflag</span>)</pre>
+    <pre class="usage"><span class='fu'>rcpp_doccount</span>(<span class='no'>ipath</span>, <span class='no'>fileflag</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -124,7 +124,7 @@ by newlines. If the file contains only one document then set delim arg to 1.</p>
     <tr>
       <th>fileflag</th>
       <td><p>An int, set to 1 if only one document per file, 0 if each document is on a newline.
-returns A string vector of the results.</p></td>
+returns An int vector of the results.</p></td>
     </tr>
     </table>
     

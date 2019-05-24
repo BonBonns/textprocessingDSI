@@ -4,12 +4,12 @@
 \alias{rcpp_summary}
 \title{Rcpp Summary}
 \usage{
-rcpp_summary(ipath, delim)
+rcpp_summary(ipath, fileflag)
 }
 \arguments{
 \item{ipath}{A string specifying the path to the input file.}
 
-\item{delim}{An int, set to 1 if only one document per file, 0 if each document is on a newline.
+\item{fileflag}{An int, set to 1 if only one document per file, 0 if each document is on a newline.
 returns A string vector of the results.}
 }
 \description{
