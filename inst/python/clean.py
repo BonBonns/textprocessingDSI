@@ -77,11 +77,11 @@ def tokenize(text):
 
 def no_tags_tokenize(text):
     # tags to be removed
-    regexes = [URL, EMAIL, PHONENUMBER, PRICE, DATE, TIME]
+    regexes = [URL, EMAIL, PHONENUMBER, PRICE, DATE, TIME, HASHTAG, USER]
     text = re.sub("|".join(regexes), r"", text)
 
-    #missing hashtag, user, apostrophe, hypthen and punct
-    regexes = [HASHTAG, USER, APOSTROPHE, HYPHEN, PUNCT]
+    #apostrophe, hypthen and punct
+    regexes = [APOSTROPHE, HYPHEN, PUNCT]
     text = re.sub("|".join(regexes), r" *\g<0> ", text)
     text = re.sub(r'\s+', ' ', text)
     words = text.split()
@@ -225,7 +225,7 @@ def main(args):
                    continue
 
                 if re.search("|".join([APOSTROPHE,HYPHEN]), w) and not re.search("|".join([URL,USER,EMAIL]), w):
-                    if args.p: w = w.tranlsate(str.maketrans('','',".?!#[]()$%&@:;,"))
+                    if args.p: w = w.translate(str.maketrans('','',".?!#[]()$%&@:;,"))
                     if args.n: w = w.translate(str.maketrans('','',digits)) 
                     if args.s: w = remove_stopwords(w, stopwords)
                     if args.d: w = remove_non_dictionary(w, hspell)
