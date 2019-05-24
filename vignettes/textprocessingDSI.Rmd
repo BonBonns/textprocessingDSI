@@ -56,7 +56,7 @@ Here we split the large file we created above into several equal sized chunks. W
 rcpp_split("/data/cd-globe/joined.dat", "/data/cd-globe/split/", 'c', 50000)
 ```
 
-This will split the "joined.dat" file into files with a size of 50MB (50,000 kilobytes). The files will be named in the format 00001.txt, 00002.txt .... This function preserves newlines and puts only as many lines would fit within each chunk. So you may see some files don't reach exactly 50MB. Each file will maintain the format of one document per line.
+This will split the "joined.dat" file into files with a size of 50MB (50,000 kilobytes). The files will be named in the format 00001.txt, 00002.txt .... This function preserves newlines and puts only as many lines would fit within each chunk. So you may see some files don't reach exactly 50MB. Each file will maintain the format of one document per line. Returns the number of files after the split.
 
 
 
@@ -84,7 +84,7 @@ For topic modeling it is useful to restrict the total number of unique words. Th
 
 ```{r}
 word_frequencies.dt = summary_corpus("/data/cd-globe/lemmatized/", 30)
-word_frequencies.dt
+head(word_frequencies.dt)
 ```
 
 
@@ -125,7 +125,7 @@ Note the final argument of 0, which tells **rcpp_join()** to assume that each fi
 This section outlines how to effectively perform the same steps as above on a corpus while avoiding much of the interaction. Note that using the automated method will limit your ability to interface with the pipeline. For example, you will not be able to change the thresholds for sparse and abundant terms based on the results you see. If it really doesn't matter for your purposes, i.e you want to quickly prep a corpus for topic modeling without thinking too much use the method of this section.
 
 ```{r}
-pipeline("/data/cd-globe/files/", "/data/cd-globe/output/", 30, "-lnprsd --maintain-newlines --min-size 2")
+pipeline("/data/cd-globe/files/", "/data/cd-globe/output/", 30, "-lnprsd --maintain-newlines --min-size 2", lemma=FALSE)
 ```
 
 In the output directory you will find a file containing the fully processed  corpus, a file with all the filenames, and a file with the parameters used in the pipeline.
