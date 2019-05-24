@@ -5,6 +5,18 @@
 
 using namespace Rcpp;
 
+// rcpp_doccount
+std::vector <int> rcpp_doccount(std::string ipath, int fileflag);
+RcppExport SEXP _textprocessingDSI_rcpp_doccount(SEXP ipathSEXP, SEXP fileflagSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< std::string >::type ipath(ipathSEXP);
+    Rcpp::traits::input_parameter< int >::type fileflag(fileflagSEXP);
+    rcpp_result_gen = Rcpp::wrap(rcpp_doccount(ipath, fileflag));
+    return rcpp_result_gen;
+END_RCPP
+}
 // dos2unix
 void dos2unix(std::string ifilename, std::string ofilename);
 RcppExport SEXP _textprocessingDSI_dos2unix(SEXP ifilenameSEXP, SEXP ofilenameSEXP) {
@@ -69,6 +81,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_textprocessingDSI_rcpp_doccount", (DL_FUNC) &_textprocessingDSI_rcpp_doccount, 2},
     {"_textprocessingDSI_dos2unix", (DL_FUNC) &_textprocessingDSI_dos2unix, 2},
     {"_textprocessingDSI_rcpp_filter", (DL_FUNC) &_textprocessingDSI_rcpp_filter, 2},
     {"_textprocessingDSI_rcpp_join", (DL_FUNC) &_textprocessingDSI_rcpp_join, 3},
