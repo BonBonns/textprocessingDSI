@@ -12,6 +12,10 @@
 #      -s                      if stop words should be stripped
 #      -d                      if non dictionary words should be stripped
 #      -t                      if tweet specific cleaning options should be used
+#      -z                      if removed words are to be the output
+#      -c                      if remove words less than three characters
+#      -f                      if two neighboring non dictionary words can be appened to form a dictionary word
+#      -a                      if autocorrect should be applied
 #      --additional            if triggered then adds all stopwords and dictionary files
 #      --tags                  if common patterns should be tagged
 #      --no-tags               if common patterns should be removed
@@ -29,6 +33,14 @@ import argparse
 import codecs
 import regex as re #for grapheme support
 import hunspell #pyhunspell not cyhunspell
+from textblob import Word
+from datetime import datetime
+
+
+HALF_WORD = ""
+NON_DICT_FILE = "./non_dict_file"
+NON_DICT_WORDS = []
+
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -40,6 +52,12 @@ def parse_arguments():
     parser.add_argument('-s', help="if stopwords should be striped", action='store_true')
     parser.add_argument('-d', help="if non dictionary words should be striped", action='store_true')
     parser.add_argument('-t', help="use tweet specific cleaning", action='store_true')
+    parser.add_argument('-z', help="print only non dictionary words", action='store_true', default=False)
+    
+    parser.add_argument('-a', help="autocorrect enter percentage followed by min wordlength", nargs=2, type=int)
+    
+    parser.add_argument('-f', help="if two seperate words can be appened to form a full word ", action='store_true',default=False)
+    parser.add_argument('-c', help="remove words less than two characters", action='store_true',default=False)
     parser.add_argument('--additional', help="if additional stopwords and dictionaries should be loaded", action='store_true')
     parser.add_argument('--tags', help="if common patterns should be tagged", action='store_true')
     parser.add_argument('--no-tags', help="if common patterns should be removed", action='store_true')
@@ -108,11 +126,59 @@ def remove_stopwords(word, stopwords):
     else:
         return word 
 
-def remove_non_dictionary(word, hspell):
-    if hspell.spell(word):
-        return word
-    else:
+def auto_correct(word,percent):      
+       
+        
+        new_percent = float(percent)
+        new_percent = new_percent/100
+        w = Word(word)
+        fixed_word = w.spellcheck()
+        if fixed_word[0][1] > new_percent : 
+          return fixed_word[0][0] 
+        else:
+          return "FAILED"      
+
+
+def remove_non_dictionary(word,hspell,is_auto_correct,append,remove_chars,percent,min_word_len):
+   
+   global HALF_WORD 
+   dict_word = False
+   
+   if hspell.spell(word.upper()):
+        dict_word = True
+   
+   if remove_chars == True and len(word)<3:
+      return ""
+    
+   if len(word)>2 and dict_word == True:
+      return word
+   
+   
+   else:
+
+  #at this point we might have a two letter non dictonary word.  
+  #word may potntally be "half" a word wait until next itteration before resetting HALF_WORD 
+     
+      full_word = HALF_WORD+word
+      if hspell.spell(full_word.upper()) and append == True:
+        HALF_WORD = ""
+        #NON_DICT_WORDS.append(full_word +" saved!")  
+        #print(full_word +" Appended!")
+        return full_word
+
+      HALF_WORD = word
+      if is_auto_correct == True and len(word)>=min_word_len:
+         corrected_word = auto_correct(word,percent)
+         if corrected_word != "FAILED":
+           HALF_WORD = ""   
+           return corrected_word
+         else: 
+           NON_DICT_WORDS.append(full_word)     
+           return ""
+      else:
+        NON_DICT_WORDS.append(full_word)     
         return ""
+        
 
 def convert_emoji(text, emojis):
     text.replace('*', '')
@@ -172,7 +238,9 @@ def get_script_path():
 
 def main(args):
     script_path = get_script_path()
-
+    auto_correct = False
+    append = False
+    remove_chars = False   
     if args.s:
         stopwords = {}
         stopwords = load_stopwords_file(stopwords, script_path  + "/include/stopwords.txt")
@@ -180,6 +248,20 @@ def main(args):
             additional_files = [f for f in os.listdir(script_path + "/include/additional/") if ".txt" in f]
             for stop_file in additional_files:
                 stopwords = load_stopwords_file(stopwords, script_path + "/include/additional/" + stop_file)
+    
+    
+    percent = 0
+    auto_correct = 0
+    if args.a:
+      percent = args.a[0]
+      min_word_len = args.a[1]
+      auto_correct = True  
+    
+    if args.f:
+      append = True 
+    if args.c:
+      remove_chars = True   
+      
     if args.d:
         hspell = hunspell.HunSpell(script_path + "/include/en_US.dic", script_path + "/include/en_US.aff")
         if args.additional:
@@ -188,13 +270,16 @@ def main(args):
             
     if args.t:
         emojis = load_emojis(script_path)
-
+ 
+    
+    
+    
     # ==================================================================================================== #
     #                               LOOP THROUGH FILE OR STDIN
     # ==================================================================================================== #
     for line in codecs.open(args.infile, "r", encoding="utf8", errors="ignore"):
         text = line.rstrip()
-        text = re.sub(r'*', '', text)
+        text = re.sub(r'\*', '', text)
 
         if args.l:
           text = text.lower()
@@ -225,7 +310,7 @@ def main(args):
                     if args.p: w = w.translate(str.maketrans('','',".?!#[]()$%&@:;,"))
                     if args.n: w = w.translate(str.maketrans('','',digits)) 
                     if args.s: w = remove_stopwords(w, stopwords)
-                    if args.d: w = remove_non_dictionary(w, hspell)
+                    if args.d: w = remove_non_dictionary(w,hspell,auto_correct,append,remove_chars,percent,min_word_len)
 
                 if len(w) > args.min_size:
                    clean_tokens.append(w[1:])
@@ -248,13 +333,15 @@ def main(args):
                         w = re.sub(ROMAN, "roman-numeral", w, flags=re.IGNORECASE)
 
                 if args.s: w = remove_stopwords(w, stopwords)
-                if args.d: w = remove_non_dictionary(w, hspell)
+                if args.d: w = remove_non_dictionary(w,hspell,auto_correct,append,remove_chars,percent,min_word_len)
 
                 if len(w) >= args.min_size:
                     clean_tokens.append(w)
 
-        print_result(clean_tokens, args.maintain_newlines)
-    
+        if args.z:
+            print_result(NON_DICT_WORDS, args.maintain_newlines)
+        else:
+            print_result(clean_tokens, args.maintain_newlines)
 if __name__ == "__main__": 
     args = parse_arguments()
     main(args)
